@@ -50,7 +50,7 @@
     <div class="row">
       <div class="col-md-6"></div>
       <div class="col-md-6 p-5">
-        <form class="bg-white rounded p-5 sign-form" autocomplete="off">
+        <form class="bg-white rounded p-5 signup-form" autocomplete="off">
           <h1 class="text-center bold">Sign up</h1>
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -74,6 +74,7 @@
           <div class="text-center">
             <button class="btn btn-primary w-50 register_btn" disabled="disabled">Register Now!</button>
           </div>
+          <div class="msg"></div>
         </form>
       </div>
     </div>
@@ -137,17 +138,74 @@
           success: function(response) {
             $(".email_loader").removeClass("fa fa-circle-notch fa-spin");
             if (response.trim() == "nofound") {
+              $(".email_loader").removeClass("fa fa-times-circle");
               $(".email_loader").addClass("fa fa-check-circle");
               $(".email_loader").css({
                 color: "green"
               })
               $(".register_btn").removeAttr("disabled");
             } else {
+              $(".email_loader").removeClass("fa fa-check-circle");
               $(".email_loader").addClass("fa fa-times-circle");
               $(".email_loader").css({
                 color: "red"
               })
+              $(".register_btn").attr("disabled", "disabled");
             }
+          }
+        })
+      })
+
+      // inserting register data
+      $(".signup-form").submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: "php/register.php",
+          type: "POST",
+          data: {
+            username: $("#username").val(),
+            email: $("#email").val(),
+            password: $("#password").val()
+          },
+          beforeSend: function() {
+            $(".register_btn").html("Please wait...");
+            $(".register_btn").attr("disabled", "disabled");
+          },
+          success: function(response) {
+            if (response.trim() == "success") {
+              $(".register_btn").html("Register Now!");
+              $(".register_btn").removeAttr("disabled", "disabled");
+              var div = document.createElement("div");
+              div.className = "alert alert-success mt-3";
+              div.innerHTML = "Registered Successfully !";
+              $(".msg").append(div);
+
+              setTimeout(function() {
+                $(".msg").html("");
+                $(".signup-form").trigger("reset");
+              }, 3000)
+            } else if (response.trim() == "usermatch") {
+              var div = document.createElement("div");
+              div.className = "alert alert-warning mt-3";
+              div.innerHTML = "User already exists !";
+              $(".msg").append(div);
+
+              setTimeout(function() {
+                $(".msg").html("");
+                $(".signup-form").trigger("reset");
+              }, 3000)
+            } else {
+              var div = document.createElement("div");
+              div.className = "alert alert-danger mt-3";
+              div.innerHTML = "Registration failed !";
+              $(".msg").append(div);
+
+              setTimeout(function() {
+                $(".msg").html("");
+                $(".signup-form").trigger("reset");
+              }, 3000)
+            }
+
           }
         })
       })
