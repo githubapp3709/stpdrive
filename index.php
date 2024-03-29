@@ -87,7 +87,13 @@ $(document).ready(function(){
     $.ajax({
       url:"php/generate_password.php",
       type:"post",
+      beforeSend:function(){
+      $(".pass_icon").removeClass("fa fa-eye");
+      $(".pass_icon").addClass("fa fa-circle-notch fa-spin");
+      },
       success:function(data){
+        $(".pass_icon").removeClass("fa fa-circle-notch fa-spin");
+        $(".pass_icon").addClass("fa fa-eye");
         $("#password").val(data.trim());
       }
     })
