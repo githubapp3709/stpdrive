@@ -24,3 +24,13 @@ body
 .bold{
     font-weight: 600;
 }
+.pass_con{
+    position: relative;
+}
+.pass_icon{
+    position: absolute;
+    top:43px;
+    right:15px;
+    cursor: pointer;
+    color: #ccc;
+}

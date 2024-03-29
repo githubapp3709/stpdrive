@@ -5,7 +5,7 @@ $patternLen=strlen($pattern);
 $password=[];
 
 for($i=0;$i<8;$i++){
-    $index=rand(0,$patternLen);
+    $index=rand(0,$patternLen-1);
    $password[] = $pattern[$index];
 }
 echo implode($password);

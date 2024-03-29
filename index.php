@@ -12,6 +12,8 @@
    <script src="js/bootstrap.bundle.min.js"></script>
   <!-- jquery google library -->
   <script src="js/jquery.min.js"></script>
+  <!-- fontawesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
     <!-- navbar -->
@@ -56,13 +58,15 @@
               <label for="email" class="form-label">Email Id</label>
               <input type="email" id="email" placeholder="Email" class="form-control">
               </div>
-              <div class="mb-3">
+
+              <div class="mb-3 pass_con">
               <label for="password" class="form-label">Password</label>
               <input type="password" id="password" placeholder="Password" class="form-control">
+              <i class="fa fa-eye pass_icon"></i>
               </div>
               <div class="mb-3 d-flex justify-content-between">
                 <div class="form-text">Click generate to improve security</div>
-                <button class="btn btn-sm btn-danger">Generate</button>
+                <button class="btn btn-sm btn-danger pass-gen" >Generate</button>
               </div>
               <div class="text-center">
               <button class="btn btn-primary w-50">Register Now!</button>
@@ -74,7 +78,31 @@
 
 
 <script>
-  
+$(document).ready(function(){
+  // generate Password
+  $(".pass-gen").click(function(e){
+    e.preventDefault();
+    $("#password").attr("type","text");
+      $(".pass_icon").css({color:"black"});
+    $.ajax({
+      url:"php/generate_password.php",
+      type:"post",
+      success:function(data){
+        $("#password").val(data.trim());
+      }
+    })
+  })
+  $(".pass_icon").click(function(){
+    if($("#password").attr("type")=="password"){
+      $("#password").attr("type","text");
+      $(this).css({color:"black"});
+    }
+    else{
+      $("#password").attr("type","password");
+      $(this).css({color:"#ccc"});
+    }
+  })
+})
 </script>
   </body>
 </html>
