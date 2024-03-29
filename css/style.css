@@ -24,10 +24,10 @@ body
 .bold{
     font-weight: 600;
 }
-.pass_con{
+.pass_con, .email_con{
     position: relative;
 }
-.pass_icon{
+.pass_icon , .email_loader{
     position: absolute;
     top:43px;
     right:15px;
